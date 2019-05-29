@@ -10,8 +10,8 @@ import io.virtualapp.VCommends;
 import io.virtualapp.abs.ui.VActivity;
 import io.virtualapp.abs.ui.VUiKit;
 import io.virtualapp.home.FlurryROMCollector;
-import io.virtualapp.home.HomeActivity;
 import jonathanfinerty.once.Once;
+import tk.nox.vm.droid.ui.LauncherActivity;
 
 public class SplashActivity extends VActivity {
 
@@ -37,7 +37,8 @@ public class SplashActivity extends VActivity {
                 VUiKit.sleep(delta);
             }
         }).done((res) -> {
-            HomeActivity.goHome(this);
+//            HomeActivity.goHome(this);
+            LauncherActivity.Companion.goLauncher(this);
             finish();
         });
     }
