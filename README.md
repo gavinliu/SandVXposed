@@ -1,43 +1,11 @@
-# SandVXposed
-VirtualApp with SandHook
-Can load xposed modules without root!
+# VMDroid
 
-# How to use
+基于 [SandVXposed](https://github.com/ganyao114/SandVXposed) 开发
 
-install target app and xposed modules in SandVXposed
+# Links
 
-# support
-
-5.0 - 10.0
-
-7.0 - 9.0 tested
-
-10.0 not stable
-
-# Plugin tested
-
-Q++
-QX
-WX
-上帝模式
-MDWechat
-XPrivacyLua
-微信学英语
-应用变量
-。。。
-
-# ScreenShot
-
-![art1.jpg](art/art2.jpg)
-
-![art2.jpg](art/art1.jpg)
-
-# SandHook
-https://github.com/ganyao114/SandHook
-
-# VirtualApp
-https://github.com/asLody/VirtualApp
-
-# Chinese
-
-[VirtualApp 源码分析](https://blog.csdn.net/ganyao939543405/article/details/76146760)
+* [SandVXposed](https://github.com/ganyao114/SandVXposed)
+* [SandHook](https://github.com/ganyao114/SandHook)
+* [VirtualApp](https://github.com/asLody/VirtualApp)
+* [epic](https://github.com/tiann/epic)
+* [YAHFA](https://github.com/rk700/YAHFA)
