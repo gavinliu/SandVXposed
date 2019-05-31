@@ -11,15 +11,20 @@ import com.lody.virtual.client.core.VirtualCore;
 import com.lody.virtual.remote.InstallResult;
 import com.lody.virtual.remote.InstalledAppInfo;
 
+import org.jdeferred.DoneCallback;
 import org.jdeferred.Promise;
+import org.jdeferred.multiple.MultipleResults;
 
 import java.io.File;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import io.reactivex.Observable;
+import io.reactivex.functions.BiFunction;
 import io.virtualapp.abs.ui.VUiKit;
 import io.virtualapp.home.models.AppData;
 import io.virtualapp.home.models.AppInfo;
@@ -56,47 +61,12 @@ public class AppRepository implements AppDataSource {
 
     @Override
     public Promise<List<AppData>, Throwable, Void> getVirtualApps() {
-        return VUiKit.defer().when(() -> {
-            List<InstalledAppInfo> infos = VirtualCore.get().getInstalledApps(InstalledAppInfo.FLAG_EXCLUDE_XPOSED_MODULE);
-            List<AppData> models = new ArrayList<>();
-            for (InstalledAppInfo info : infos) {
-                if (!VirtualCore.get().isPackageLaunchable(info.packageName)) {
-                    continue;
-                }
-                PackageAppData data = new PackageAppData(mContext, info);
-                if (VirtualCore.get().isAppInstalledAsUser(0, info.packageName)) {
-                    models.add(data);
-                }
-                int[] userIds = info.getInstalledUsers();
-                for (int userId : userIds) {
-                    if (userId != 0) {
-                        models.add(new MultiplePackageAppData(data, userId));
-                    }
-                }
-            }
-            return models;
-        });
+        return VUiKit.defer().when(this::findVirtualApps);
     }
 
     @Override
     public Promise<List<AppData>, Throwable, Void> getVirtualXposedModules() {
-        return VUiKit.defer().when(() -> {
-            List<InstalledAppInfo> infos = VirtualCore.get().getInstalledApps(InstalledAppInfo.FLAG_XPOSED_MODULE);
-            List<AppData> models = new ArrayList<>();
-            for (InstalledAppInfo info : infos) {
-                PackageAppData data = new PackageAppData(mContext, info);
-                if (VirtualCore.get().isAppInstalledAsUser(0, info.packageName)) {
-                    models.add(data);
-                }
-                int[] userIds = info.getInstalledUsers();
-                for (int userId : userIds) {
-                    if (userId != 0) {
-                        models.add(new MultiplePackageAppData(data, userId));
-                    }
-                }
-            }
-            return models;
-        });
+        return VUiKit.defer().when(this::findVirtualXposedModules);
     }
 
     @Override
@@ -112,6 +82,68 @@ public class AppRepository implements AppDataSource {
     @Override
     public Promise<List<AppInfo>, Throwable, Void> getStorageApps(Context context, File rootDir) {
         return VUiKit.defer().when(() -> convertPackageInfoToAppData(context, findAndParseAPKs(context, rootDir, SCAN_PATH_LIST), false));
+    }
+
+    @Override
+    public Observable<List<AppInfo>> getNeedInstallApps(Context context, File rootDir) {
+        Observable<List<AppData>> virtualApps = Observable.just(findVirtualApps());
+        Observable<List<AppData>> xposedModules = Observable.just(findVirtualXposedModules());
+        Observable<List<AppInfo>> storageApps = Observable.just(convertPackageInfoToAppData(context, findAndParseAPKs(context, rootDir, SCAN_PATH_LIST), false));
+
+        return Observable.zip(virtualApps, xposedModules, storageApps, (appDatas, modules, appInfos) -> {
+            appDatas.addAll(modules);
+
+            Iterator<AppInfo> infoIterator = appInfos.iterator();
+            while (infoIterator.hasNext()) {
+                AppInfo appInfo = infoIterator.next();
+
+                for (AppData appData : appDatas) {
+                    if (appInfo.packageName.equals(appData.getPackageName())) {
+                        infoIterator.remove();
+                    }
+                }
+            }
+            return appInfos;
+        });
+    }
+
+    private List<AppData> findVirtualXposedModules() {
+        List<InstalledAppInfo> infos = VirtualCore.get().getInstalledApps(InstalledAppInfo.FLAG_XPOSED_MODULE);
+        List<AppData> models = new ArrayList<>();
+        for (InstalledAppInfo info : infos) {
+            PackageAppData data = new PackageAppData(mContext, info);
+            if (VirtualCore.get().isAppInstalledAsUser(0, info.packageName)) {
+                models.add(data);
+            }
+            int[] userIds = info.getInstalledUsers();
+            for (int userId : userIds) {
+                if (userId != 0) {
+                    models.add(new MultiplePackageAppData(data, userId));
+                }
+            }
+        }
+        return models;
+    }
+
+    private List<AppData> findVirtualApps() {
+        List<InstalledAppInfo> infos = VirtualCore.get().getInstalledApps(InstalledAppInfo.FLAG_EXCLUDE_XPOSED_MODULE);
+        List<AppData> models = new ArrayList<>();
+        for (InstalledAppInfo info : infos) {
+            if (!VirtualCore.get().isPackageLaunchable(info.packageName)) {
+                continue;
+            }
+            PackageAppData data = new PackageAppData(mContext, info);
+            if (VirtualCore.get().isAppInstalledAsUser(0, info.packageName)) {
+                models.add(data);
+            }
+            int[] userIds = info.getInstalledUsers();
+            for (int userId : userIds) {
+                if (userId != 0) {
+                    models.add(new MultiplePackageAppData(data, userId));
+                }
+            }
+        }
+        return models;
     }
 
     private List<PackageInfo> findAndParseAPKs(Context context, File rootDir, List<String> paths) {
@@ -164,6 +196,8 @@ public class AppRepository implements AppDataSource {
             info.path = path;
             info.icon = ai.loadIcon(pm);
             info.name = ai.loadLabel(pm);
+            info.versionCode = pkg.versionCode;
+            info.versionName = pkg.versionName;
             InstalledAppInfo installedAppInfo = VirtualCore.get().getInstalledAppInfo(pkg.packageName, 0);
             if (installedAppInfo != null) {
                 info.cloneCount = installedAppInfo.getInstalledUsers().length;

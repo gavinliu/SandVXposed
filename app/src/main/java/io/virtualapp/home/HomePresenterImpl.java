@@ -88,6 +88,7 @@ class HomePresenterImpl implements HomeContract.HomePresenter {
         }
         AddResult addResult = new AddResult();
         VUiKit.defer().when(() -> {
+            System.out.println("addApp when " + info);
             InstalledAppInfo installedAppInfo = VirtualCore.get().getInstalledAppInfo(info.packageName, 0);
             addResult.justEnableHidden = installedAppInfo != null;
             if (addResult.justEnableHidden) {
@@ -130,8 +131,10 @@ class HomePresenterImpl implements HomeContract.HomePresenter {
                 }
             }
         }).then((res) -> {
+            System.out.println("addApp then " + info);
             addResult.appData = PackageAppDataStorage.get().acquire(info.packageName);
         }).done(res -> {
+            System.out.println("addApp done " + info);
             boolean multipleVersion = addResult.justEnableHidden && addResult.userId != 0;
             if (addResult.appData.getXposedModule() != null) {
                 Toast.makeText(mActivity, String.format(mActivity.getString(R.string.module_install_success), addResult.appData.name), Toast.LENGTH_SHORT).show();

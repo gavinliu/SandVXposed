@@ -21,20 +21,19 @@
             android:name=".splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
         <activity
             android:name=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/UITheme" />
+
         <activity
             android:name=".home.ListAppActivity"
             android:screenOrientation="portrait"
             android:theme="@style/UITheme" />
+
         <activity
             android:name=".home.LoadingActivity"
             android:excludeFromRecents="true"
@@ -42,10 +41,12 @@
             android:screenOrientation="portrait"
             android:taskAffinity="va.task.loading"
             android:theme="@style/TransparentTheme" />
+
         <activity
             android:name=".home.location.VirtualLocationSettings"
             android:screenOrientation="portrait"
             android:theme="@style/UITheme" />
+
         <activity
             android:name=".home.location.MarkerActivity"
             android:screenOrientation="portrait"
@@ -62,7 +63,21 @@
             android:exported="false"
             android:process=":x" />
 
-        <activity android:name="tk.nox.vm.droid.ui.LauncherActivity" />
+        <activity
+            android:name="tk.nox.vm.droid.ui.SplashActivity"
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="tk.nox.vm.droid.ui.LauncherActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

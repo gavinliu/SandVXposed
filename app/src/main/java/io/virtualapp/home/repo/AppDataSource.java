@@ -9,6 +9,7 @@ import org.jdeferred.Promise;
 import java.io.File;
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.virtualapp.home.models.AppData;
 import io.virtualapp.home.models.AppInfo;
 import io.virtualapp.home.models.AppInfoLite;
@@ -35,6 +36,8 @@ public interface AppDataSource {
     Promise<List<AppInfo>, Throwable, Void> getInstalledXposedModules(Context context);
 
     Promise<List<AppInfo>, Throwable, Void> getStorageApps(Context context, File rootDir);
+
+    Observable<List<AppInfo>> getNeedInstallApps(Context context, File rootDir);
 
     InstallResult addVirtualApp(AppInfoLite info);
 

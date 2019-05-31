@@ -16,4 +16,6 @@ public class AppInfo {
     public CharSequence name;
     public int cloneCount;
     public VPackage.XposedModule xposedModule;
+    public int versionCode;
+    public String versionName;
 }
