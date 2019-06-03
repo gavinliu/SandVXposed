@@ -71,4 +71,6 @@ class LauncherFragment : QLceViewFragment<List<AppData>, LauncherViewModel, Swip
         }
     }
 
+    override fun onBackPressed(): Boolean = true
+
 }

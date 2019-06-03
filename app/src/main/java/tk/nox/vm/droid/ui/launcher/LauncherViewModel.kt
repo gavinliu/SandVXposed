@@ -21,5 +21,4 @@ class LauncherViewModel : QLceViewModel<List<AppData>>() {
 
         repo.virtualApps.done { content.value = it }.fail { displayError(false, it) }
     }
-
 }

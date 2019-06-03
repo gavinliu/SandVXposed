@@ -4,13 +4,13 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import cn.quickits.arch.mvvm.base.BaseFragment
 import com.blankj.utilcode.util.FileIOUtils
 import com.lody.virtual.client.core.VirtualCore
 import io.virtualapp.R
 import io.virtualapp.abs.ui.VUiKit
 import kotlinx.android.synthetic.main.fragment_splash2.*
-import tk.nox.vm.droid.ui.LauncherActivity
 import tk.nox.vm.droid.util.DirUtils
 
 
@@ -66,8 +66,7 @@ class SplashFragment : BaseFragment() {
 
     private fun gotoLauncher() {
         activity?.let {
-            LauncherActivity.goLauncher(it)
-            it.finish()
+            findNavController().navigate(R.id.action_splashFragment_to_launcherFragment)
         }
     }
 

@@ -2,11 +2,20 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_launcher"
-    app:startDestination="@id/launcherFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/launcherFragment"
         android:name="tk.nox.vm.droid.ui.launcher.LauncherFragment"
         android:label="LauncherFragment" />
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="tk.nox.vm.droid.ui.splash.SplashFragment"
+        android:label="SplashFragment">
+        <action
+            android:id="@+id/action_splashFragment_to_launcherFragment"
+            app:destination="@id/launcherFragment" />
+    </fragment>
 
 </navigation>

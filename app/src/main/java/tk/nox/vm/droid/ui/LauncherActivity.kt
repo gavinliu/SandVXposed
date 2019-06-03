@@ -2,6 +2,8 @@ package tk.nox.vm.droid.ui
 
 import android.content.Context
 import android.content.Intent
+import androidx.navigation.findNavController
+import cn.quickits.arch.mvvm.OnBackPressedHandler
 import io.virtualapp.R
 import tk.nox.vm.droid.ui.base.BaseActivity
 
@@ -15,6 +17,14 @@ import tk.nox.vm.droid.ui.base.BaseActivity
 class LauncherActivity : BaseActivity() {
 
     override fun bindLayoutId(): Int = R.layout.activity_launcher
+
+    override fun onBackPressed() {
+        if (findNavController(R.id.nav_host_fragment).currentDestination?.id == R.id.launcherFragment) {
+
+        } else {
+            super.onBackPressed()
+        }
+    }
 
     companion object {
 
