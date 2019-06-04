@@ -1,6 +1,7 @@
 package tk.nox.vm.droid
 
 import android.app.Application
+import tk.nox.reply.bot.BotApplication
 
 
 /**
@@ -12,7 +13,7 @@ import android.app.Application
 object VMDroidApplication {
 
     fun onCreate(application: Application) {
-
+        BotApplication().initModuleApp(application)
     }
 
 }
