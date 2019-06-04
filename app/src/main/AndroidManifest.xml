@@ -66,6 +66,7 @@
         <activity
             android:name="tk.nox.vm.droid.ui.LauncherActivity"
             android:clearTaskOnLaunch="true"
+            android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true">

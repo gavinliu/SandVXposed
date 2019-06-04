@@ -17,6 +17,7 @@ import io.virtualapp.delegate.MyComponentDelegate;
 import io.virtualapp.delegate.MyPhoneInfoDelegate;
 import io.virtualapp.delegate.MyTaskDescriptionDelegate;
 import jonathanfinerty.once.Once;
+import tk.nox.vm.droid.VMDroidApplication;
 
 /**
  * @author Lody
@@ -48,6 +49,7 @@ public class VApp extends MultiDexApplication {
     public void onCreate() {
         gApp = this;
         super.onCreate();
+        VMDroidApplication.INSTANCE.onCreate(this);
         lazyInjectInit();
         VirtualCore virtualCore = VirtualCore.get();
         virtualCore.initialize(new VirtualCore.VirtualInitializer() {

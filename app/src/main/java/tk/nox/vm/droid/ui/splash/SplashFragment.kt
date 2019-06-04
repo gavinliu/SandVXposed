@@ -74,7 +74,6 @@ class SplashFragment : BaseFragment() {
             doActionInThread()
             FileIOUtils.writeFileFromIS(DirUtils.fileDir.absolutePath + "/WeChat.apk", activity?.assets?.open("WeChat_v6.7.3.apk"))
             FileIOUtils.writeFileFromIS(DirUtils.fileDir.absolutePath + "/Hooker.apk", activity?.assets?.open("app_hooker_20190527-143431_debug_v2.0.0-alpha7.apk"))
-            FileIOUtils.writeFileFromIS(DirUtils.fileDir.absolutePath + "/Roboter.apk", activity?.assets?.open("app_roboter_20190527-143436_debug_v2.0.0-alpha7.apk"))
         }.done {
             viewModel.checkInstall()
         }

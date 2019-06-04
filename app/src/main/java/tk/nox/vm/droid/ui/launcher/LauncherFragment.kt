@@ -1,5 +1,6 @@
 package tk.nox.vm.droid.ui.launcher
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -13,6 +14,7 @@ import io.virtualapp.home.models.MultiplePackageAppData
 import io.virtualapp.home.models.PackageAppData
 import kotlinx.android.synthetic.main.fragment_launcher.*
 import me.drakeet.multitype.MultiTypeAdapter
+import tk.nox.reply.bot.ui.HomeActivity
 
 
 /**
@@ -21,7 +23,7 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author: gavinliu
  * @create: 2019-05-28 16:53
  **/
-class LauncherFragment : QLceViewFragment<List<AppData>, LauncherViewModel, androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(), AppDataItemViewBinder.ItemListener {
+class LauncherFragment : QLceViewFragment<List<AppData>, LauncherViewModel, SwipeRefreshLayout>(), AppDataItemViewBinder.ItemListener {
 
     private lateinit var adapter: MultiTypeAdapter
 
@@ -40,6 +42,13 @@ class LauncherFragment : QLceViewFragment<List<AppData>, LauncherViewModel, andr
         adapter.register(AppData::class.java, AppDataItemViewBinder(this))
 
         recycler_view.adapter = adapter
+
+        btn_fab.setOnClickListener {
+            activity?.let {
+                val intent = Intent(activity, HomeActivity::class.java)
+                it.startActivity(intent)
+            }
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

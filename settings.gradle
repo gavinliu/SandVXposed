@@ -1,1 +1,7 @@
 include ':lib', ':app'
+
+include ':lib_ipc'
+project(':lib_ipc').projectDir = new File('/home/gavin/Workspace/Android/WeChatReplyBot/lib_ipc')
+
+include ':app_roboter'
+project(':app_roboter').projectDir = new File('/home/gavin/Workspace/Android/WeChatReplyBot/app_roboter')
