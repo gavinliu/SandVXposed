@@ -1,7 +1,7 @@
 package tk.nox.vm.droid.ui.splash
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
@@ -24,9 +24,7 @@ class SplashFragment : BaseFragment() {
 
     private lateinit var viewModel: SplashViewModel
 
-    override fun bindLayout(): Int = R.layout.fragment_splash2
-
-    override fun pageName(): String = "Splash"
+    override fun bindLayoutId(): Int = R.layout.fragment_splash2
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

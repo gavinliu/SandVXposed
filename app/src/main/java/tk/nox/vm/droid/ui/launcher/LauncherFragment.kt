@@ -1,8 +1,8 @@
 package tk.nox.vm.droid.ui.launcher
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.view.View
 import cn.quickits.arch.mvvm.QLceViewFragment
 import com.blankj.utilcode.util.Utils
@@ -21,13 +21,11 @@ import me.drakeet.multitype.MultiTypeAdapter
  * @author: gavinliu
  * @create: 2019-05-28 16:53
  **/
-class LauncherFragment : QLceViewFragment<List<AppData>, LauncherViewModel, SwipeRefreshLayout>(), AppDataItemViewBinder.ItemListener {
+class LauncherFragment : QLceViewFragment<List<AppData>, LauncherViewModel, androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(), AppDataItemViewBinder.ItemListener {
 
     private lateinit var adapter: MultiTypeAdapter
 
-    override fun bindLayout(): Int = R.layout.fragment_launcher
-
-    override fun pageName(): String = "Launcher"
+    override fun bindLayoutId(): Int = R.layout.fragment_launcher
 
     override fun createViewModel(): LauncherViewModel {
         return ViewModelProviders.of(this).get(LauncherViewModel::class.java)

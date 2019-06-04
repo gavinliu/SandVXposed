@@ -1,7 +1,7 @@
 package tk.nox.vm.droid.ui.splash
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.blankj.utilcode.util.Utils
 import com.lody.virtual.client.core.VirtualCore
 import com.lody.virtual.os.VUserInfo
