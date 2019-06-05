@@ -52,6 +52,11 @@ public class AddAppButton implements AppData {
     }
 
     @Override
+    public int versionCode() {
+        return 0;
+    }
+
+    @Override
     public boolean canReorder() {
         return false;
     }

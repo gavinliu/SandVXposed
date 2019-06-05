@@ -93,12 +93,18 @@ public class AppRepository implements AppDataSource {
         return Observable.zip(virtualApps, xposedModules, storageApps, (appDatas, modules, appInfos) -> {
             appDatas.addAll(modules);
 
+            for (AppData data : appDatas) {
+                System.out.println(data.getPackageName());
+                System.out.println(data.versionCode());
+                System.out.println(data.versionName());
+            }
+
             Iterator<AppInfo> infoIterator = appInfos.iterator();
             while (infoIterator.hasNext()) {
                 AppInfo appInfo = infoIterator.next();
 
                 for (AppData appData : appDatas) {
-                    if (appInfo.packageName.equals(appData.getPackageName())) {
+                    if (appInfo.packageName.equals(appData.getPackageName()) && appInfo.versionCode == appData.versionCode()) {
                         infoIterator.remove();
                     }
                 }

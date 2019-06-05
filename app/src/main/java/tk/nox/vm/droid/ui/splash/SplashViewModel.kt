@@ -61,26 +61,38 @@ class SplashViewModel : ViewModel() {
         VUiKit.defer()
                 .`when` {
                     println("addApp when{} $info")
+
+                    if (VirtualCore.get().isAppInstalled(info.packageName)) {
+                        VirtualCore.get().uninstallPackage(info.packageName)
+                    }
+
                     val installedAppInfo = VirtualCore.get().getInstalledAppInfo(info.packageName, 0)
                     addResult.justEnableHidden = installedAppInfo != null
+
                     if (addResult.justEnableHidden) {
                         val userIds = installedAppInfo!!.installedUsers
-                        var nextUserId = userIds.size
 
-                        for (i in userIds.indices) {
-                            if (userIds[i] != i) {
-                                nextUserId = i
-                                break
-                            }
-                        }
+                        val nextUserId = userIds[0]
 
-                        addResult.userId = nextUserId
+                        println(nextUserId)
 
-                        if (VUserManager.get().getUserInfo(nextUserId) == null) {
-                            val nextUserName = "Space " + (nextUserId + 1)
-                            VUserManager.get().createUser(nextUserName, VUserInfo.FLAG_ADMIN)
-                                    ?: throw IllegalStateException()
-                        }
+//                        var nextUserId = userIds.size
+//
+//                        for (i in userIds.indices) {
+//                            if (userIds[i] != i) {
+//                                nextUserId = i
+//                                break
+//                            }
+//                        }
+//
+//                        addResult.userId = nextUserId
+//
+//                        if (VUserManager.get().getUserInfo(nextUserId) == null) {
+//                            val nextUserName = "Space " + (nextUserId + 1)
+//                            VUserManager.get().createUser(nextUserName, VUserInfo.FLAG_ADMIN)
+//                                    ?: throw IllegalStateException()
+//                        }
+
                         val success = VirtualCore.get().installPackageAsUser(nextUserId, info.packageName)
                         if (!success) {
                             throw IllegalStateException()

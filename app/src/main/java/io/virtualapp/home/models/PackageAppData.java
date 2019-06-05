@@ -16,6 +16,7 @@ public class PackageAppData implements AppData {
     public String packageName;
     public String name;
     public String versionName;
+    public int versionCode;
     public Drawable icon;
     public boolean fastOpen;
     public boolean isFirstOpen;
@@ -27,6 +28,7 @@ public class PackageAppData implements AppData {
         this.isFirstOpen = !installedAppInfo.isLaunched(0);
         this.xposedModule = installedAppInfo.xposedModule;
         versionName = installedAppInfo.getPackageInfo(0).versionName;
+        versionCode = installedAppInfo.getPackageInfo(0).versionCode;
         loadData(context, installedAppInfo.getApplicationInfo(installedAppInfo.getInstalledUsers()[0]));
     }
 
@@ -74,6 +76,11 @@ public class PackageAppData implements AppData {
     @Override
     public String versionName() {
         return versionName;
+    }
+
+    @Override
+    public int versionCode() {
+        return versionCode;
     }
 
     @Override

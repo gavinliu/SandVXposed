@@ -22,6 +22,8 @@ public interface AppData {
 
     String versionName();
 
+    int versionCode();
+
     boolean canReorder();
 
     boolean canLaunch();

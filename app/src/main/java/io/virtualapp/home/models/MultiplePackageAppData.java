@@ -19,6 +19,7 @@ public class MultiplePackageAppData implements AppData {
     public Drawable icon;
     public String name;
     public String versionName;
+    public int versionCode;
     public VPackage.XposedModule xposedModule;
 
     public MultiplePackageAppData(PackageAppData target, int userId) {
@@ -27,6 +28,7 @@ public class MultiplePackageAppData implements AppData {
         this.isFirstOpen = !appInfo.isLaunched(userId);
         this.xposedModule = target.getXposedModule();
         this.versionName = target.versionName();
+        this.versionCode = target.versionCode;
         if (target.icon != null) {
             Drawable.ConstantState state = target.icon.getConstantState();
             if (state != null) {
@@ -59,6 +61,11 @@ public class MultiplePackageAppData implements AppData {
     @Override
     public String getPackageName() {
         return appInfo.packageName;
+    }
+
+    @Override
+    public int versionCode() {
+        return versionCode;
     }
 
     @Override
