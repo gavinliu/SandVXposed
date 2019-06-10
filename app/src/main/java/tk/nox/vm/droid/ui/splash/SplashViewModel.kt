@@ -3,9 +3,8 @@ package tk.nox.vm.droid.ui.splash
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.blankj.utilcode.util.Utils
+import com.lody.virtual.client.core.InstallStrategy
 import com.lody.virtual.client.core.VirtualCore
-import com.lody.virtual.os.VUserInfo
-import com.lody.virtual.os.VUserManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -70,12 +69,9 @@ class SplashViewModel : ViewModel() {
                     addResult.justEnableHidden = installedAppInfo != null
 
                     if (addResult.justEnableHidden) {
-                        val userIds = installedAppInfo!!.installedUsers
-
-                        val nextUserId = userIds[0]
-
-                        println(nextUserId)
-
+//                        val userIds = installedAppInfo!!.installedUsers
+//                        val nextUserId = userIds[0]
+//                        println(nextUserId)
 //                        var nextUserId = userIds.size
 //
 //                        for (i in userIds.indices) {
@@ -92,8 +88,11 @@ class SplashViewModel : ViewModel() {
 //                            VUserManager.get().createUser(nextUserName, VUserInfo.FLAG_ADMIN)
 //                                    ?: throw IllegalStateException()
 //                        }
+//                        val success = VirtualCore.get().installPackageAsUser(nextUserId, info.packageName)
 
-                        val success = VirtualCore.get().installPackageAsUser(nextUserId, info.packageName)
+                        val flags = InstallStrategy.UPDATE_IF_EXIST or InstallStrategy.SKIP_DEX_OPT
+                        val success = VirtualCore.get().installPackage(info.path, flags).isSuccess
+
                         if (!success) {
                             throw IllegalStateException()
                         }
